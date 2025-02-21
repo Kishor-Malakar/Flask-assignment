@@ -1,54 +1,21 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_IMAGE = 'capstone-img'
-        AZURE_APP_NAME = 'capstone'
-        AZURE_RESOURCE_GROUP = 'ResourceGroup'
-        AZURE_PLAN = 'AppServicePlan'
-    }
     stages {
-        stage('Checkout') {
+        stage('Build') {
             steps {
-                // Checkout code from Git
-                git branch: 'main', url: 'https://github.com/Kishor-Malakar/Flask-assignment.git'
+                sh 'pip install -r requirements.txt'
             }
         }
-        stage('Install Dependencies') {
+        stage('Test') {
             steps {
-                // Install npm dependencies
-                sh 'npm install'
+                sh 'pytest'  // Ensure you have your tests defined
             }
         }
-        stage('Run Tests') {
-            steps {
-                // Run Jest tests
-                sh 'npm test'
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build Docker image
-                    sh 'docker build -t $DOCKER_IMAGE .'
-                }
-            }
-        }
-        // stage('Deploy to Azure') {
+        // stage('Deploy') {
         //     steps {
-        //         script {
-        //             // Login to Azure
-        //             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID'
-
-        //             // Deploy Docker image to Azure App Service
-        //             sh 'az webapp create --resource-group $AZURE_RESOURCE_GROUP --plan $AZURE_PLAN --name $AZURE_APP_NAME --deployment-container-image-name $DOCKER_IMAGE'
-        //         }
+        //         // Deploy to Azure
+        //         sh 'az webapp up --name YourAppName --resource-group YourResourceGroup --plan YourAppServicePlan'
         //     }
         // }
-    }
-    post {
-        always {
-            // Cleanup
-            cleanWs()
-        }
     }
 }
