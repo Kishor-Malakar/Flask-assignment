@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Git
-                git 'https://github.com/Kishor-Malakar/Flask-assignment.git'
+                git branch: 'main', url: 'https://github.com/Kishor-Malakar/Flask-assignment.git'
             }
         }
         stage('Install Dependencies') {
