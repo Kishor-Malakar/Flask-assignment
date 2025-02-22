@@ -30,7 +30,7 @@ pipeline {
 
         stage('Deploy to Azure') {
             steps {
-                sh 'az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myFlaskApp --deployment-container-image-name your-docker-username/flask-api'
+                sh 'az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myFlaskApp --deployment-container-image-name kishor03/flask-api'
             }
         }
     }
